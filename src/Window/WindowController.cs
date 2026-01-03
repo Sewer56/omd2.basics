@@ -7,7 +7,7 @@ namespace omd2.basics.Window;
 /// <summary>
 /// Controls window sizing to match the configured resolution.
 /// </summary>
-public class WindowController(Config config, ILogger logger)
+public class WindowController(ILogger logger)
 {
     private const string GameWindowClass = "VVideoClass";
 
@@ -50,7 +50,7 @@ public class WindowController(Config config, ILogger logger)
         int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
         // Calculate position based on dock setting
-        var (x, y) = CalculateDockPosition(config.DockPosition, screenWidth, screenHeight, windowWidth, windowHeight);
+        var (x, y) = CalculateDockPosition(Mod.Configuration.DockPosition, screenWidth, screenHeight, windowWidth, windowHeight);
 
         // Apply the new size and position
         SetWindowPos(hwnd, IntPtr.Zero, x, y, windowWidth, windowHeight, SWP_NOZORDER | SWP_NOACTIVATE);

@@ -71,16 +71,16 @@ public class Mod : ModBase
             }
 
             // Create window controller
-            _windowController = new WindowController(Configuration, _logger);
+            _windowController = new WindowController(_logger);
 
             // Create Vision video controller (hooks SetMode to override resolution at engine init)
-            _visionVideoController = new VisionVideoController(_hooks, scannerFactory, Configuration, _logger, OnResolutionChanged);
+            _visionVideoController = new VisionVideoController(_hooks, scannerFactory, _logger, OnResolutionChanged);
 
             // Create aspect ratio controller (hooks SetFOV for aspect ratio fix)
             _aspectRatioController = new AspectRatioController(_hooks, scannerFactory, _logger);
 
             // Create D3D9 controller with resolution change callback
-            _d3d9Controller = new D3D9Controller(_hooks, Configuration, _logger, OnResolutionChanged);
+            _d3d9Controller = new D3D9Controller(_hooks, _logger, OnResolutionChanged);
 
             _logger.WriteLine($"[{_modConfig.ModId}] All controllers initialized successfully");
         }

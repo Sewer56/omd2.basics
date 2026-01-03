@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using omd2.basics.Configuration;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Mod.Interfaces;
 using SharpDX.Direct3D9;
@@ -13,8 +12,6 @@ public unsafe class D3D9Controller : IDisposable
 {
     private readonly ILogger _logger;
     private readonly Action<int, int> _onResolutionChanged;
-
-    private Config _config;
 
     private DX9Hook? _dx9Hook;
     private Direct3DEx? _d3dEx;
@@ -44,10 +41,9 @@ public unsafe class D3D9Controller : IDisposable
     /// </summary>
     public IntPtr GameWindowHandle { get; private set; }
 
-    public D3D9Controller(IReloadedHooks hooks, Config config, ILogger logger, Action<int, int> onResolutionChanged)
+    public D3D9Controller(IReloadedHooks hooks, ILogger logger, Action<int, int> onResolutionChanged)
     {
         _logger = logger;
-        _config = config;
         _onResolutionChanged = onResolutionChanged;
 
         try
@@ -93,13 +89,11 @@ public unsafe class D3D9Controller : IDisposable
         ref PresentParameters presentParameters,
         IntPtr* ppReturnedDeviceInterface)
     {
-        var config = _config;
-        
         // Create our own Direct3DEx instance
         _d3dEx = new Direct3DEx();
         
         // Get resolution - use config values or fall back to desktop resolution
-        GetTargetResolution(config, out int width, out int height);
+        GetTargetResolution(out int width, out int height);
         _currentWidth = width;
         _currentHeight = height;
         
@@ -150,8 +144,7 @@ public unsafe class D3D9Controller : IDisposable
             return _resetHook!.OriginalFunction(device, ref presentParameters);
         }
 
-        var config = _config;
-        GetTargetResolution(config, out int width, out int height);
+        GetTargetResolution(out int width, out int height);
         
         bool resolutionChanged = width != _currentWidth || height != _currentHeight;
         _currentWidth = width;
@@ -184,8 +177,9 @@ public unsafe class D3D9Controller : IDisposable
         pp.MultiSampleQuality = 0;
     }
 
-    private void GetTargetResolution(Config config, out int width, out int height)
+    private void GetTargetResolution(out int width, out int height)
     {
+        var config = Mod.Configuration;
         if (config.OverrideResolution && config.ResolutionWidth > 0 && config.ResolutionHeight > 0)
         {
             width = config.ResolutionWidth;

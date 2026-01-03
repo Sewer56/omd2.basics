@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using omd2.basics.Configuration;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X86;
 using Reloaded.Memory.Sigscan.Definitions;
@@ -33,8 +32,6 @@ public unsafe class VisionVideoController : IDisposable
     private readonly IScannerFactory _scannerFactory;
     private readonly Action<int, int>? _onResolutionApplied;
 
-    private Config _config;
-
     private IHook<SetModeDelegate>? _setModeHook;
     private nuint _hookAddress;
 
@@ -48,14 +45,12 @@ public unsafe class VisionVideoController : IDisposable
     public VisionVideoController(
         IReloadedHooks hooks,
         IScannerFactory scannerFactory,
-        Config config,
         ILogger logger,
         Action<int, int>? onResolutionApplied = null)
     {
         _hooks = hooks;
         _scannerFactory = scannerFactory;
         _logger = logger;
-        _config = config;
         _onResolutionApplied = onResolutionApplied;
 
         // Vision90.dll should already be loaded by the time we initialize
@@ -120,7 +115,7 @@ public unsafe class VisionVideoController : IDisposable
 
     private int SetModeHookImpl(IntPtr thisPtr, IntPtr videoConfig)
     {
-        var config = _config;
+        var config = Mod.Configuration;
 
         // Read original values from VVideoConfig
         int* configAsInt = (int*)videoConfig;
