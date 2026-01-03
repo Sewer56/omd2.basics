@@ -27,7 +27,7 @@ A [Reloaded-II](https://reloaded-project.github.io/Reloaded-II/) mod for Orcs Mu
 
 ## Installation
 
-1. Install [Reloaded-II](https://reloaded-project.github.io/Reloaded-II/)
+1. Install [Reloaded-II](https://github.com/Reloaded-Project/Reloaded-II/releases/latest/download/Setup.exe)
 2. Download from releases
 3. Import into Reloaded-II
 4. Enable for Orcs Must Die 2
