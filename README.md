@@ -13,11 +13,17 @@ A [Reloaded-II](https://reloaded-project.github.io/Reloaded-II/) mod for Orcs Mu
 - **D3D9Ex Upgrade** - Upgrades the game from D3D9 to D3D9Ex
 - **Aspect Ratio Fix** - Hor+ FOV scaling for ultrawide (21:9, 32:9, etc.)
 - **Additional FOV Slider** - Fine-tune field of view
+- **VSync Override** - Force VSync on/off (default: ON)
+- **FPS Limit Override** - Set a custom FPS limit (default: 0 = no limit, use VSync)
 
 ## Non-Features
 
 - **Window Resizing** - The game window cannot be resized after launch
 - **HUD Repositioning** - HUD elements are not moved
+
+## Known Issues
+
+- **In-game resolution menu is broken** - Changing resolution from the game's video settings menu does not work correctly. Use the mod's config instead.
 
 ## Disclaimers
 
