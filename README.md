@@ -1,49 +1,32 @@
 # Orcs Must Die 2 Basics
 
-A [Reloaded-II](https://reloaded-project.github.io/Reloaded-II/) mod for Orcs Must Die 2 that provides resolution override and aspect ratio fixes.
+A [Reloaded-II](https://reloaded-project.github.io/Reloaded-II/) mod for Orcs Must Die 2.
+
+The game normally restricts you to resolutions in its preset list - this bypasses that limitation.
 
 ## Features
 
-- **Resolution Override** - Run at any resolution (defaults to your desktop resolution)
-- **D3D9Ex Upgrade** - Converts the game from D3D9 to D3D9Ex for better performance and compatibility
-- **Aspect Ratio Fix** - Hor+ FOV scaling for ultrawide monitors (21:9, 32:9, etc.)
-- **Additional FOV Slider** - Fine-tune your field of view
+- **Resolution Override** - Force any resolution (defaults to desktop resolution)
+- **Window Dock Position** - Position window at screen edges or center (top-left, bottom-center, etc.)
+- **D3D9Ex Upgrade** - Upgrades the game from D3D9 to D3D9Ex
+- **Aspect Ratio Fix** - Hor+ FOV scaling for ultrawide (21:9, 32:9, etc.)
+- **Additional FOV Slider** - Fine-tune field of view
+
+## Non-Features
+
+- **Window Resizing** - The game window cannot be resized after launch
 
 ## Installation
 
 1. Install [Reloaded-II](https://reloaded-project.github.io/Reloaded-II/)
-2. Download this mod from releases
+2. Download from releases
 3. Import into Reloaded-II
 4. Enable for Orcs Must Die 2
 
-## Configuration
+## Note
 
-All settings are configurable through the Reloaded-II mod configuration interface:
-
-- **Override Resolution** - Enable/disable custom resolution
-- **Width/Height** - Set custom resolution (0 = use desktop resolution)
-- **Enable Aspect Ratio Fix** - Fix FOV for non-16:9 displays
-- **Additional FOV** - Extra FOV adjustment (-5 to +5 degrees)
-
-## Building
-
-Requires .NET 9.0 SDK.
-
-```powershell
-dotnet build src/omd2.basics.csproj
-```
-
-For publishing:
-
-```powershell
-./Publish.ps1
-```
-
-## Dependencies
-
-- [Reloaded.SharedLib.Hooks](https://github.com/Reloaded-Project/Reloaded.SharedLib.Hooks)
-- [Reloaded.Memory.SigScan](https://github.com/Reloaded-Project/Reloaded.Memory.SigScan)
+This is not production quality software. I made this within 4-ish hours so I can play co-op with my girlfriend, whose monitor has the bottom half broken. Without a non-standard aspect ratio and resolution, part of the game would render on the broken half of the screen, making it unplayable.
 
 ## License
 
-See repository for license information.
+MIT - Do what you want with it.
