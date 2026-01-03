@@ -1,0 +1,21 @@
+{
+  "ModId": "omd2.basics",
+  "ModName": "Orcs Must Die 2 Basics",
+  "ModAuthor": "Sewer56",
+  "ModVersion": "1.0.0",
+  "ModDescription": "Basics for Orcs Must Die 2. Not production quality. Made for a very special friend.",
+  "ModDll": "omd2.basics.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "x86/omd2.basics.dll",
+  "ModR2RManagedDll64": "x64/omd2.basics.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "omd2.basics.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [ "reloaded.sharedlib.hooks", "Reloaded.Memory.SigScan.ReloadedII" ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [ "orcsmustdie2.exe" ],
+  "ProjectUrl": ""
+}
