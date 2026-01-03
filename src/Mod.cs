@@ -5,6 +5,7 @@ using omd2.basics.Template;
 using omd2.basics.Window;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Memory.Sigscan.Definitions;
+using Reloaded.Memory.SigScan.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 #if DEBUG
 using System.Diagnostics;
@@ -33,6 +34,7 @@ public class Mod : ModBase
     private D3D9Controller? _d3d9Controller;
     private AspectRatioController? _aspectRatioController;
     private WindowController? _windowController;
+    private FpsLimitController? _fpsLimitController;
 
     public Mod(ModContext context)
     {
@@ -70,6 +72,14 @@ public class Mod : ModBase
                 return;
             }
 
+            // Get IStartupScanner for main module scans
+            var startupScannerController = _modLoader.GetController<IStartupScanner>();
+            if (startupScannerController == null || !startupScannerController.TryGetTarget(out var startupScanner))
+            {
+                _logger.WriteLine($"[{_modConfig.ModId}] ERROR: IStartupScanner not available!");
+                return;
+            }
+
             // Create window controller
             _windowController = new WindowController(_logger);
 
@@ -81,6 +91,9 @@ public class Mod : ModBase
 
             // Create D3D9 controller with resolution change callback
             _d3d9Controller = new D3D9Controller(_hooks, _logger, OnResolutionChanged);
+
+            // Create FPS limit controller (hooks configGetInt to override ForceFPS)
+            _fpsLimitController = new FpsLimitController(_hooks, startupScanner, _logger);
 
             _logger.WriteLine($"[{_modConfig.ModId}] All controllers initialized successfully");
         }
@@ -114,7 +127,8 @@ public class Mod : ModBase
         // Update aspect ratio settings (FOV slider)
         _aspectRatioController?.OnConfigUpdated();
 
-        // Note: Resolution changes require device reset, which the game handles
+        // Update FPS limit (takes effect immediately)
+        _fpsLimitController?.OnConfigUpdated();
     }
     #endregion
 

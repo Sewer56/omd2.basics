@@ -37,6 +37,20 @@ public class Config : Configurable<Config>
     [DefaultValue(WindowDockPosition.Center)]
     public WindowDockPosition DockPosition { get; set; } = WindowDockPosition.Center;
 
+    // --- FPS Limit Override ---
+
+    [Category("FPS Limit")]
+    [DisplayName("Override FPS Limit")]
+    [Description("Override the game's ForceFPS setting from startup config.")]
+    [DefaultValue(true)]
+    public bool OverrideFpsLimit { get; set; } = true;
+
+    [Category("FPS Limit")]
+    [DisplayName("FPS Limit")]
+    [Description("Maximum FPS. Set to 0 for VSync (no frame limiting, capped by monitor refresh rate).")]
+    [DefaultValue(0)]
+    public int FpsLimit { get; set; } = 0;
+
     // --- Aspect Ratio Fix ---
 
     [Category("Aspect Ratio")]
