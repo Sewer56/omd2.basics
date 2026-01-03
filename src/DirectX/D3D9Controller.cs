@@ -174,7 +174,7 @@ public unsafe class D3D9Controller : IDisposable
 
         // D3D9Ex requires these settings for windowed mode
         pp.SwapEffect = SwapEffect.FlipEx;
-        pp.BackBufferCount = 2;
+        pp.BackBufferCount = 1;
         pp.MultiSampleType = MultisampleType.None;
         pp.MultiSampleQuality = 0;
         
