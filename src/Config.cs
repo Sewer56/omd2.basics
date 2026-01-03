@@ -31,6 +31,12 @@ public class Config : Configurable<Config>
     [DefaultValue(0)]
     public int ResolutionHeight { get; set; } = 0;
 
+    [Category("Resolution")]
+    [DisplayName("Window Dock Position")]
+    [Description("Where to position the game window on screen when using a custom resolution.")]
+    [DefaultValue(WindowDockPosition.Center)]
+    public WindowDockPosition DockPosition { get; set; } = WindowDockPosition.Center;
+
     // --- Aspect Ratio Fix ---
 
     [Category("Aspect Ratio")]
@@ -63,4 +69,37 @@ public class Config : Configurable<Config>
 public class ConfiguratorMixin : ConfiguratorMixinBase
 {
     // 
+}
+
+/// <summary>
+/// Specifies where the game window should be positioned on screen.
+/// </summary>
+public enum WindowDockPosition
+{
+    [Display(Name = "Center")]
+    Center,
+    
+    [Display(Name = "Top Left")]
+    TopLeft,
+    
+    [Display(Name = "Top Center")]
+    TopCenter,
+    
+    [Display(Name = "Top Right")]
+    TopRight,
+    
+    [Display(Name = "Middle Left")]
+    MiddleLeft,
+    
+    [Display(Name = "Middle Right")]
+    MiddleRight,
+    
+    [Display(Name = "Bottom Left")]
+    BottomLeft,
+    
+    [Display(Name = "Bottom Center")]
+    BottomCenter,
+    
+    [Display(Name = "Bottom Right")]
+    BottomRight
 }

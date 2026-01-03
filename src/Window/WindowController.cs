@@ -33,8 +33,6 @@ public class WindowController(Config config, ILogger logger)
     {
         if (hwnd == IntPtr.Zero) return;
 
-        _ = config; // Available for future use
-        
         // Get current window style to calculate border sizes
         int style = GetWindowLong(hwnd, GWL_STYLE);
         int exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
@@ -47,18 +45,39 @@ public class WindowController(Config config, ILogger logger)
         int windowWidth = rect.Right - rect.Left;
         int windowHeight = rect.Bottom - rect.Top;
 
-        // Get screen dimensions for centering
+        // Get screen dimensions for positioning
         int screenWidth = GetSystemMetrics(SM_CXSCREEN);
         int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-        // Center the window
-        int x = (screenWidth - windowWidth) / 2;
-        int y = (screenHeight - windowHeight) / 2;
+        // Calculate position based on dock setting
+        var (x, y) = CalculateDockPosition(config.DockPosition, screenWidth, screenHeight, windowWidth, windowHeight);
 
         // Apply the new size and position
         SetWindowPos(hwnd, IntPtr.Zero, x, y, windowWidth, windowHeight, SWP_NOZORDER | SWP_NOACTIVATE);
 
         logger.WriteLine($"[WindowController] Window resized to {clientWidth}x{clientHeight} (window: {windowWidth}x{windowHeight}) at ({x}, {y})");
+    }
+
+    /// <summary>
+    /// Calculates window position based on the dock setting.
+    /// </summary>
+    private static (int x, int y) CalculateDockPosition(WindowDockPosition dock, int screenWidth, int screenHeight, int windowWidth, int windowHeight)
+    {
+        int x = dock switch
+        {
+            WindowDockPosition.TopLeft or WindowDockPosition.MiddleLeft or WindowDockPosition.BottomLeft => 0,
+            WindowDockPosition.TopRight or WindowDockPosition.MiddleRight or WindowDockPosition.BottomRight => screenWidth - windowWidth,
+            _ => (screenWidth - windowWidth) / 2 // Center, TopCenter, BottomCenter
+        };
+
+        int y = dock switch
+        {
+            WindowDockPosition.TopLeft or WindowDockPosition.TopCenter or WindowDockPosition.TopRight => 0,
+            WindowDockPosition.BottomLeft or WindowDockPosition.BottomCenter or WindowDockPosition.BottomRight => screenHeight - windowHeight,
+            _ => (screenHeight - windowHeight) / 2 // Center, MiddleLeft, MiddleRight
+        };
+
+        return (x, y);
     }
 
     #region Native Methods
