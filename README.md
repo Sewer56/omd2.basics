@@ -34,9 +34,17 @@ A [Reloaded-II](https://reloaded-project.github.io/Reloaded-II/) mod for Orcs Mu
 ## Installation
 
 1. Install [Reloaded-II](https://github.com/Reloaded-Project/Reloaded-II/releases/latest/download/Setup.exe)
-2. Download from releases
-3. Import into Reloaded-II
+2. Add Orcs Must Die 2 to Reloaded-II
+   - Plus icon, bottom left.
+   - Browse to `C:\Program Files (x86)\Steam\steamapps\common\Orcs Must Die 2\build\game\OrcsMustDie2.exe`
+3. Download from releases
+   - 1 click, paste into browser URL bar `r2:https://github.com/Sewer56/omd2.basics/releases/download/1.1.0/omd2.basics1.1.0.7z`
 4. Enable for Orcs Must Die 2
+   - Tick the box beside the game so it becomes a plus.
+5. Configure
+   - Click the 'Configure Mod' button after highlighting the mod row.
+   - Adjust settings as desired.
+6. Launch the game from Reloaded-II
 
 ## Note
 
