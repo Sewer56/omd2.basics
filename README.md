@@ -2,7 +2,9 @@
 
 A [Reloaded-II](https://reloaded-project.github.io/Reloaded-II/) mod for Orcs Must Die 2.
 
-The game normally restricts you to resolutions in its preset list - this bypasses that limitation.
+![Preview](https://github.com/user-attachments/assets/1216afc5-daf2-4bf5-95ef-4c4905b4d859)
+
+*Preview at 64:9 (7680x1080)*
 
 ## Features
 
@@ -15,6 +17,13 @@ The game normally restricts you to resolutions in its preset list - this bypasse
 ## Non-Features
 
 - **Window Resizing** - The game window cannot be resized after launch
+- **HUD Repositioning** - HUD elements are not moved
+
+## Disclaimers
+
+- **Borderless Windowed Only** - This mod forces borderless windowed mode because:
+  - It's the default/intended D3D9Ex mode (on Windows 10+ it has the same optimizations as exclusive fullscreen)
+  - The game has performance problems in exclusive fullscreen for some reason on my end
 
 ## Installation
 
@@ -25,8 +34,10 @@ The game normally restricts you to resolutions in its preset list - this bypasse
 
 ## Note
 
-This is not production quality software. I made this within 4-ish hours so I can play co-op with my girlfriend, whose monitor has the bottom half broken. Without a non-standard aspect ratio and resolution, part of the game would render on the broken half of the screen, making it unplayable.
+This is not purroduction quality software, nya~! I made this within 4-ish hours so I can play co-op with someone very pawsitively precious to me, whose monitor has the bottom half broken.
+
+The game normally restricts you to resolutions in its preset list, so without a non-standard aspect ratio and resolution, part of the game would render on the broken half of the screen, making it unpurrlayable.
 
 ## License
 
-MIT - Do what you want with it.
+GPLv3
