@@ -8,14 +8,14 @@ using Reloaded.Mod.Interfaces;
 namespace omd2.basics.Graphics;
 
 /// <summary>
-/// Hooks the game's configGetInt function to intercept ForceFPS reads.
+/// Hooks the game's configGetInt function to intercept ForceFPS and VSync reads.
 /// 
 /// configGetInt (sub_405700) is a __fastcall function:
 ///   - ECX: config handle index
 ///   - EDX: pointer to output value (int*)
 ///   - Returns: AL = 1 if successful, 0 if not
 /// 
-/// When the ForceFPS config is queried, we intercept and return our own value.
+/// When the ForceFPS or VSync configs are queried, we intercept and return our own values.
 /// Setting FPS to 0 effectively disables the frame limiter (returning 0/failure skips it).
 /// </summary>
 public unsafe class FpsLimitController : IDisposable
@@ -29,12 +29,16 @@ public unsafe class FpsLimitController : IDisposable
 
     // Address of ForceFPS handle storage (set after config registration)
     private const nuint ConfigForceFpsHandleAddress = 0x8cf260;
+    
+    // Address of VSync handle storage (set after config registration)
+    private const nuint ConfigVSyncHandleAddress = 0x8cf248;
 
     private readonly ILogger _logger;
     private readonly IReloadedHooks _hooks;
 
     private IHook<ConfigGetIntDelegate>? _configGetIntHook;
     private int _forceFpsHandle = -1;
+    private int _vsyncHandle = -1;
     private bool _isHookActive;
 
     /// <summary>
@@ -96,31 +100,40 @@ public unsafe class FpsLimitController : IDisposable
             return;
         }
 
-        _logger.WriteLine(config.FpsLimit <= 0
-            ? "[FpsLimit] Uncapped"
-            : $"[FpsLimit] Limit: {config.FpsLimit}");
+        var vsyncStatus = config.VSync ? "ON" : "OFF";
+        var fpsStatus = config.FpsLimit <= 0 ? "No limit" : $"{config.FpsLimit}";
+        _logger.WriteLine($"[FpsLimit] VSync: {vsyncStatus}, FPS Limit: {fpsStatus}");
     }
 
     private int ConfigGetIntHookImpl(int configHandle, int* outValue)
     {
-        // Lazily read the ForceFPS handle (set at runtime during config init)
+        // Lazily read the config handles (set at runtime during config init)
         if (_forceFpsHandle == -1)
             _forceFpsHandle = *(int*)ConfigForceFpsHandleAddress;
-
-        // Only intercept ForceFPS queries
-        if (configHandle != _forceFpsHandle || _forceFpsHandle == -1)
-            return _configGetIntHook!.OriginalFunction(configHandle, outValue);
+        if (_vsyncHandle == -1)
+            _vsyncHandle = *(int*)ConfigVSyncHandleAddress;
 
         var config = Mod.Configuration;
-        if (!config.OverrideFpsLimit)
-            return _configGetIntHook!.OriginalFunction(configHandle, outValue);
+        
+        // Intercept VSync queries
+        if (configHandle == _vsyncHandle && _vsyncHandle != -1 && config.OverrideFpsLimit)
+        {
+            *outValue = config.VSync ? 1 : 0;
+            return 1;
+        }
 
-        // FPS <= 0 means disable frame limiting (return failure)
-        if (config.FpsLimit <= 0)
-            return 0;
+        // Intercept ForceFPS queries
+        if (configHandle == _forceFpsHandle && _forceFpsHandle != -1 && config.OverrideFpsLimit)
+        {
+            // FPS <= 0 means disable frame limiting (return failure)
+            if (config.FpsLimit <= 0)
+                return 0;
 
-        *outValue = config.FpsLimit;
-        return 1;
+            *outValue = config.FpsLimit;
+            return 1;
+        }
+
+        return _configGetIntHook!.OriginalFunction(configHandle, outValue);
     }
 
     public void Dispose()

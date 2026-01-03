@@ -14,7 +14,7 @@ public class Config : Configurable<Config>
     // --- Resolution Override ---
     
     [Category("Resolution")]
-    [DisplayName("Override Resolution")]
+    [DisplayName("Enable")]
     [Description("Enable custom resolution override for the game renderer.")]
     [DefaultValue(true)]
     public bool OverrideResolution { get; set; } = true;
@@ -40,21 +40,27 @@ public class Config : Configurable<Config>
     // --- FPS Limit Override ---
 
     [Category("FPS Limit")]
-    [DisplayName("Override FPS Limit")]
-    [Description("Override the game's ForceFPS setting from startup config.")]
+    [DisplayName("Enable")]
+    [Description("Override the game's ForceFPS and VSync settings.")]
     [DefaultValue(true)]
     public bool OverrideFpsLimit { get; set; } = true;
 
     [Category("FPS Limit")]
+    [DisplayName("VSync")]
+    [Description("Enable VSync to cap framerate to monitor refresh rate.\nRecommended: ON. Disabling VSync is not recommended because the game's built-in frame limiter is broken.")]
+    [DefaultValue(true)]
+    public bool VSync { get; set; } = true;
+
+    [Category("FPS Limit")]
     [DisplayName("FPS Limit")]
-    [Description("Maximum FPS. Set to 0 for VSync (no frame limiting, capped by monitor refresh rate).")]
+    [Description("Maximum FPS (in addition to VSync). Set to 0 for no additional limit.\nRecommended: VSync ON + FPS Limit 0.")]
     [DefaultValue(0)]
     public int FpsLimit { get; set; } = 0;
 
     // --- Aspect Ratio Fix ---
 
     [Category("Aspect Ratio")]
-    [DisplayName("Enable Aspect Ratio Fix")]
+    [DisplayName("Enable")]
     [Description("Fix FOV for non-16:9 aspect ratios using Hor+ scaling. Wider screens will see more of the game world.")]
     [DefaultValue(true)]
     public bool EnableAspectRatioFix { get; set; } = true;

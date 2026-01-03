@@ -166,6 +166,8 @@ public unsafe class D3D9Controller : IDisposable
 
     private static void ApplyPresentParameters(ref PresentParameters pp, int width, int height)
     {
+        var config = Mod.Configuration;
+        
         pp.BackBufferWidth = width;
         pp.BackBufferHeight = height;
         pp.Windowed = true;
@@ -175,6 +177,10 @@ public unsafe class D3D9Controller : IDisposable
         pp.BackBufferCount = 2;
         pp.MultiSampleType = MultisampleType.None;
         pp.MultiSampleQuality = 0;
+        
+        // VSync control - only apply if override is enabled
+        if (config.OverrideFpsLimit)
+            pp.PresentationInterval = config.VSync ? PresentInterval.One : PresentInterval.Immediate;
     }
 
     private void GetTargetResolution(out int width, out int height)
